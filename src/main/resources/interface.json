@@ -1,0 +1,26 @@
+{
+  "service": "math service",
+  "procedures": [{
+    "procedure": "add",
+    "type": "POST",
+    "parameters": [{
+      "parameter": "first",
+      "type": "Integer",
+      "restrictions": [{
+        "type": "Mandatory",
+        "value": true
+      }]
+    },
+      {
+        "parameter": "second",
+        "type": "Integer",
+        "restrictions": [{
+          "type": "Mandatory",
+          "value": true
+        }]
+      }],
+    "result": {
+      "type": "Integer"
+    }
+  }]
+}
