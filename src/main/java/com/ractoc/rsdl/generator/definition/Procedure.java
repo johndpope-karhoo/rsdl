@@ -10,9 +10,21 @@ public class Procedure {
     private String procedure;
     private List<Parameter> parameters;
     private Result result;
-    private Fault fault;
+    private String type;
 
-    public String getProcedure() {
+    public Procedure() {
+		super();
+	}
+
+    public Procedure(String procedure, List<Parameter> parameters, Result result, String type) {
+		super();
+		this.procedure = procedure;
+		this.parameters = parameters;
+		this.result = result;
+		this.type = type;
+	}
+
+	public String getProcedure() {
         return procedure;
     }
 
@@ -24,17 +36,17 @@ public class Procedure {
         return result;
     }
 
-    public Fault getFault() {
-        return fault;
-    }
+    public String getType() {
+		return type;
+	}
 
-    @Override
+	@Override
     public String toString() {
         return "Procedure{" +
                 "procedure='" + procedure + '\'' +
+                ", type='" + type + '\'' +
                 ", parameters=" + parameters +
                 ", result=" + result +
-                ", fault=" + fault +
                 '}';
     }
 }

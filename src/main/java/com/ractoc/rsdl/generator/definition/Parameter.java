@@ -5,11 +5,21 @@ package com.ractoc.rsdl.generator.definition;
  */
 public class Parameter {
 
-    private String name;
+    private String parameter;
     private String type;
 
-    public String getName() {
-        return name;
+    public Parameter() {
+		super();
+	}
+
+    public Parameter(String parameter, String type) {
+		super();
+		this.parameter = parameter;
+		this.type = type;
+	}
+
+	public String getParameter() {
+        return parameter;
     }
 
     public String getType() {
@@ -19,7 +29,7 @@ public class Parameter {
     @Override
     public String toString() {
         return "Parameter{" +
-                "name='" + name + '\'' +
+                "name='" + parameter + '\'' +
                 ", type='" + type + '\'' +
                 '}';
     }

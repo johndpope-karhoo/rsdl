@@ -10,7 +10,17 @@ public class Service {
     private String service;
     private List<Procedure> procedures;
 
-    public String getService() {
+    public Service() {
+		super();
+	}
+
+	public Service(String service, List<Procedure> procedures) {
+		super();
+		this.service = service;
+		this.procedures = procedures;
+	}
+
+	public String getService() {
         return service;
     }
 

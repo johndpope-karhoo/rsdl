@@ -6,7 +6,16 @@ package com.ractoc.rsdl.generator.definition;
 public class Result {
     private String type;
 
-    public String getType() {
+    public Result() {
+		super();
+	}
+
+    public Result(String type) {
+		super();
+		this.type = type;
+	}
+
+	public String getType() {
         return type;
     }
 

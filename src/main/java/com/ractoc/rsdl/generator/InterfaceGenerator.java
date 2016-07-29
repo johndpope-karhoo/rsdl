@@ -1,30 +1,40 @@
 package com.ractoc.rsdl.generator;
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
+import com.fasterxml.jackson.core.JsonGenerationException;
+import com.fasterxml.jackson.core.JsonParseException;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ractoc.rsdl.generator.definition.Parameter;
 import com.ractoc.rsdl.generator.definition.Procedure;
+import com.ractoc.rsdl.generator.definition.Result;
 import com.ractoc.rsdl.generator.definition.Service;
-import com.ractoc.json.JsonParser;
-
-import java.io.*;
-
 
 public class InterfaceGenerator {
 
     public static final String INTERFACE_PACKAGE = "com.ractoc.generated.service";
     public static final String INTERFACE_JSON = "/interface.json";
-    public static final String PATHNAME = "c:/Temp";
+    public static final String PATHNAME = "src/main/resources";
     public static final String CLIENT_SUFFIX = "Client";
     public static final String SERVER_SUFFIX = "Server";
     public static final String JAVA_EXTENSION = ".java";
 
     public static void main(String[] args) throws IOException {
         InterfaceGenerator generator = new InterfaceGenerator();
-        Service service = generator.loadServiceFromConfigStream(InterfaceGenerator.class.getResourceAsStream(INTERFACE_JSON));
+        generator.writeServiceToFile(PATHNAME + INTERFACE_JSON);
+        Service service = generator.readServiceFromFile(PATHNAME + INTERFACE_JSON);
+        System.out.println(service);
         generator.generateServiceClient(service, PATHNAME, INTERFACE_PACKAGE);
         generator.generateServiceServer(service, PATHNAME, INTERFACE_PACKAGE);
     }
 
-    public void generateServiceClient(Service service, String outputFolder, String genPackage) throws IOException {
+	public void generateServiceClient(Service service, String outputFolder, String genPackage) throws IOException {
 
         String clientPackage = genPackage + "." + CLIENT_SUFFIX.toLowerCase();
         File clientPackageFolder = createFolderStructure(outputFolder, clientPackage);
@@ -68,7 +78,7 @@ public class InterfaceGenerator {
                 if (!first) {
                     writer.write(", ");
                 }
-                writer.write("final " + parameter.getType() + " " + parameter.getName());
+                writer.write("final " + parameter.getType() + " " + parameter.getParameter());
                 first = false;
             }
             writer.write(") {");
@@ -109,7 +119,7 @@ public class InterfaceGenerator {
                 if (!first) {
                     writer.write(", ");
                 }
-                writer.write("final " + parameter.getType() + " " + parameter.getName());
+                writer.write("final " + parameter.getType() + " " + parameter.getParameter());
                 first = false;
             }
             writer.write(") {");
@@ -157,13 +167,22 @@ public class InterfaceGenerator {
         }
         return folder;
     }
-
-    private Service loadServiceFromConfigStream(InputStream is) {
-        InputStreamReader reader = new InputStreamReader(is);
-        JsonParser parser = new JsonParser(reader);
-        Service service = parser.readInto(Service.class);
-        System.out.println(service);
-        return service;
+    
+    private void writeServiceToFile(String interfaceJson) throws JsonGenerationException, JsonMappingException, IOException {
+    	List<Parameter> parameters = new ArrayList<Parameter>();
+    	parameters.add(new Parameter("first", "Integer"));
+    	parameters.add(new Parameter("second", "Integer"));
+    	List<Procedure> procedures = new ArrayList<Procedure>();
+    	procedures.add(new Procedure("add", parameters, new Result("Integer"), "POST"));
+    	Service service = new Service("math service", procedures);
+    	
+    	ObjectMapper mapper = new ObjectMapper();
+    	mapper.writeValue(new File(interfaceJson), service);
     }
 
+    private Service readServiceFromFile(String interfaceJson) throws JsonParseException, JsonMappingException, IOException {
+    	ObjectMapper mapper = new ObjectMapper();
+    	Service service = mapper.readValue(new File(interfaceJson), Service.class);
+		return service;
+	}
 }
