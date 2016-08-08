@@ -1,5 +1,6 @@
 {
 	"service": "math service",
+	"path": "/math",
 	"procedures": [
 		{
 			"procedure": "add",
@@ -16,7 +17,7 @@
 			"result": {
 				"type": "Integer"
 			},
-			"type": "POST"
+			"type": "GET"
 		}
 	]
 }

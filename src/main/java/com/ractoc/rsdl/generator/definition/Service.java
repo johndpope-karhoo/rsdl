@@ -8,15 +8,15 @@ import java.util.List;
 public class Service {
 
     private String service;
+    private String path;
     private List<Procedure> procedures;
 
     public Service() {
-		super();
 	}
 
-	public Service(String service, List<Procedure> procedures) {
-		super();
+	public Service(String service, String path, List<Procedure> procedures) {
 		this.service = service;
+		this.path = path;
 		this.procedures = procedures;
 	}
 
@@ -27,11 +27,16 @@ public class Service {
     public List<Procedure> getProcedures() {
         return procedures;
     }
+    
+    public String getPath() {
+		return path;
+	}
 
-    @Override
+	@Override
     public String toString() {
         return "Service{" +
-                "service='" + service + '\'' +
+        		"service='" + service + '\'' +
+                "pathj='" + path + '\'' +
                 ", procedures=" + procedures +
                 '}';
     }
